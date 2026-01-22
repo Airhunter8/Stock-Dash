@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { Header } from '@/components/dashboard/header'
 import { PortfolioSummary } from '@/components/dashboard/portfolio-summary'
 import { StockTable } from '@/components/dashboard/stock-table'
@@ -24,6 +25,7 @@ import { Toaster } from '@/components/ui/toaster'
 const INITIAL_CASH = 25000
 
 export default function DashboardPage() {
+  const router = useRouter()
   const [stocks, setStocks] = useState<Stock[]>(mockStocks)
   const [cash, setCash] = useState(INITIAL_CASH)
   const [columns, setColumns] = useState<ColumnConfig[]>(defaultColumns)
@@ -167,12 +169,7 @@ export default function DashboardPage() {
                     })
                   }
                 }}
-                onTrade={() => {
-                  toast({
-                    title: 'Coming soon',
-                    description: 'Stock search functionality will be available soon.',
-                  })
-                }}
+                onTrade={() => router.push('/search')}
                 onRefresh={handleRefresh}
               />
               <Watchlist items={mockWatchlist} onAddStock={() => {

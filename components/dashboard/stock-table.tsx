@@ -3,7 +3,8 @@
 import React from "react"
 
 import { useState } from 'react'
-import { ArrowDown, ArrowUp, Settings2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { ArrowDown, ArrowUp, Settings2, ExternalLink } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
@@ -105,6 +106,7 @@ function getCellValue(stock: Stock, columnKey: ColumnKey): React.ReactNode {
 }
 
 export function StockTable({ stocks, columns, onColumnsChange, onStockSelect }: StockTableProps) {
+  const router = useRouter()
   const [hoveredStock, setHoveredStock] = useState<string | null>(null)
   const visibleColumns = columns.filter(col => col.visible)
 
@@ -152,6 +154,7 @@ export function StockTable({ stocks, columns, onColumnsChange, onStockSelect }: 
                     {col.label}
                   </th>
                 ))}
+                <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground w-12">Details</th>
               </tr>
             </thead>
             <tbody>
@@ -176,6 +179,20 @@ export function StockTable({ stocks, columns, onColumnsChange, onStockSelect }: 
                       {getCellValue(stock, col.key)}
                     </td>
                   ))}
+                  <td className="py-4 px-4 text-center">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 hover:bg-primary/20"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        router.push(`/stock/${stock.symbol}`)
+                      }}
+                    >
+                      <ExternalLink className="h-4 w-4 text-muted-foreground hover:text-primary" />
+                      <span className="sr-only">View {stock.symbol} details</span>
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
