@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── NextAuth Adapter Tables ───────────────────────────────────────────────
+
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String    @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  accounts       Account[]
+  sessions       Session[]
+  portfolio      Portfolio?
+  watchlists     Watchlist[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── Portfolio & Trading ───────────────────────────────────────────────────
+
+model Portfolio {
+  id          String     @id @default(cuid())
+  userId      String     @unique
+  cashBalance Decimal    @default(100000) @db.Decimal(15, 2)
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  positions   Position[]
+  trades      Trade[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Position {
+  id          String    @id @default(cuid())
+  portfolioId String
+  ticker      String
+  shares      Decimal   @db.Decimal(15, 6)
+  avgCost     Decimal   @db.Decimal(15, 4)
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([portfolioId, ticker])
+  @@index([portfolioId])
+  @@index([ticker])
+}
+
+model Trade {
+  id          String    @id @default(cuid())
+  portfolioId String
+  ticker      String
+  type        TradeType
+  shares      Decimal   @db.Decimal(15, 6)
+  price       Decimal   @db.Decimal(15, 4)
+  total       Decimal   @db.Decimal(15, 2)
+  realizedPnl Decimal?  @db.Decimal(15, 2)
+  notes       String?
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  executedAt  DateTime  @default(now())
+
+  @@index([portfolioId])
+  @@index([ticker])
+  @@index([executedAt])
+}
+
+enum TradeType {
+  BUY
+  SELL
+}
+
+// ─── Watchlist ─────────────────────────────────────────────────────────────
+
+model Watchlist {
+  id        String          @id @default(cuid())
+  userId    String
+  name      String          @default("Default")
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     WatchlistItem[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@index([userId])
+}
+
+model WatchlistItem {
+  id          String    @id @default(cuid())
+  watchlistId String
+  ticker      String
+  watchlist   Watchlist @relation(fields: [watchlistId], references: [id], onDelete: Cascade)
+  addedAt     DateTime  @default(now())
+
+  @@unique([watchlistId, ticker])
+  @@index([watchlistId])
+}
+
+// ─── Market Data Cache ─────────────────────────────────────────────────────
+
+model StockData {
+  id       String   @id @default(cuid())
+  ticker   String
+  date     DateTime @db.Date
+  open     Decimal  @db.Decimal(15, 4)
+  high     Decimal  @db.Decimal(15, 4)
+  low      Decimal  @db.Decimal(15, 4)
+  close    Decimal  @db.Decimal(15, 4)
+  adjClose Decimal  @db.Decimal(15, 4)
+  volume   BigInt
+
+  @@unique([ticker, date])
+  @@index([ticker])
+  @@index([date])
+}
+
+model StockProfile {
+  id            String   @id @default(cuid())
+  ticker        String   @unique
+  name          String
+  description   String?  @db.Text
+  sector        String?
+  industry      String?
+  exchange      String?
+  marketCap     BigInt?
+  peRatio       Decimal? @db.Decimal(10, 4)
+  eps           Decimal? @db.Decimal(10, 4)
+  dividendYield Decimal? @db.Decimal(10, 4)
+  beta          Decimal? @db.Decimal(10, 4)
+  week52High    Decimal? @db.Decimal(15, 4)
+  week52Low     Decimal? @db.Decimal(15, 4)
+  employees     Int?
+  ceo           String?
+  headquarters  String?
+  founded       String?
+  website       String?
+  updatedAt     DateTime @updatedAt
+}

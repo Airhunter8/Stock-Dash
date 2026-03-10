@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(taskkill /F /PID 16844 2>&1; sleep 2 && npm run dev)",
+      "Bash(cmd /c \"taskkill /F /PID 16844\" 2>&1)",
+      "Bash(sleep 1 && npm run dev)",
+      "Bash(cmd /c \"netstat -ano | findstr :3000\" 2>&1)",
+      "Bash(npm run:*)",
+      "Bash(cmd /c \"netstat -ano | findstr LISTEN | findstr :300\")",
+      "Bash(cmd /c \"netstat -ano\")",
+      "Bash(powershell -Command \"Get-Process -Id 16844 -ErrorAction SilentlyContinue | Stop-Process -Force; Write-Host 'Done'\")",
+      "Bash(cd \"C:/Users/ryanc/Downloads/Practice/Stock-Dash/backend\" && npm install ws && npm install --save-dev @types/ws)",
+      "Bash(cd \"C:/Users/ryanc/Downloads/Practice/Stock-Dash\" && npx prisma db execute --stdin <<'EOF'\nDELETE FROM \"Portfolio\";\nEOF)",
+      "Bash(cd \"C:/Users/ryanc/Downloads/Practice/Stock-Dash\" && node -e \"\nconst { PrismaClient } = require\\('@prisma/client'\\);\nconst prisma = new PrismaClient\\(\\);\nprisma.portfolio.deleteMany\\(\\).then\\(r => { console.log\\('Deleted', r.count, 'portfolio\\(s\\)'\\); return prisma.\\\\$disconnect\\(\\); }\\);\n\")"
+    ]
+  }
+}

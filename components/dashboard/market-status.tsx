@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 import { Activity } from 'lucide-react'
 
 export function MarketStatus() {
-  const [currentTime, setCurrentTime] = useState(new Date())
+  const [currentTime, setCurrentTime] = useState<Date | null>(null)
 
   useEffect(() => {
+    setCurrentTime(new Date())
     const interval = setInterval(() => {
       setCurrentTime(new Date())
     }, 1000)
@@ -14,9 +15,9 @@ export function MarketStatus() {
     return () => clearInterval(interval)
   }, [])
 
-  const hours = currentTime.getHours()
-  const minutes = currentTime.getMinutes()
-  const day = currentTime.getDay()
+  const hours = currentTime?.getHours() ?? 0
+  const minutes = currentTime?.getMinutes() ?? 0
+  const day = currentTime?.getDay() ?? new Date().getDay()
 
   // Market hours: 9:30 AM - 4:00 PM ET, Monday-Friday
   const isWeekday = day >= 1 && day <= 5
@@ -38,7 +39,7 @@ export function MarketStatus() {
       <div className="flex items-center gap-2 text-muted-foreground">
         <Activity className="h-4 w-4" />
         <span className="text-sm font-mono">
-          {currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+          {currentTime ? currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '--:--:--'}
         </span>
       </div>
     </div>
