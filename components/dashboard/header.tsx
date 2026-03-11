@@ -33,6 +33,7 @@ const NAV_LINKS = [
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/watchlist', label: 'Watchlist' },
   { href: '/backtesting', label: 'Backtesting' },
+  { href: '/predictions', label: 'Predictions' },
 ]
 
 function getInitials(name?: string | null): string {

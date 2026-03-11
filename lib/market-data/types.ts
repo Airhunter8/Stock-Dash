@@ -55,3 +55,23 @@ export interface MarketDataProvider {
   getHistory(ticker: string, outputSize?: 'compact' | 'full'): Promise<HistoricalBar[]>
   getProfile(ticker: string): Promise<CompanyProfile>
 }
+
+export interface NewsArticle {
+  title: string
+  url: string
+  timePublished: string
+  summary: string
+  source: string
+  overallSentimentScore: number
+  overallSentimentLabel: string
+  tickerSentimentScore: number
+  tickerSentimentLabel: string
+  relevanceScore: number
+}
+
+export interface SentimentData {
+  averageScore: number
+  label: string
+  articleCount: number
+  articles: NewsArticle[]
+}

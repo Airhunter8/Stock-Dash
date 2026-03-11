@@ -1,4 +1,4 @@
-import type { MarketDataProvider, MarketQuote, HistoricalBar, CompanyProfile, SearchResult } from './types'
+import type { MarketDataProvider, MarketQuote, HistoricalBar, CompanyProfile, SearchResult, SentimentData, NewsArticle } from './types'
 
 const BASE_URL = 'https://www.alphavantage.co/query'
 
@@ -95,6 +95,54 @@ export class AlphaVantageProvider implements MarketDataProvider {
 
     bars.sort((a, b) => a.date.localeCompare(b.date))
     return bars
+  }
+
+  async getNewsSentiment(ticker: string): Promise<SentimentData> {
+    const data = await this.fetchAV({
+      function: 'NEWS_SENTIMENT',
+      tickers: ticker,
+      limit: '20',
+    }) as Record<string, unknown>
+
+    const feed = (data['feed'] as Record<string, unknown>[] | undefined) || []
+
+    let weightedSum = 0
+    let totalWeight = 0
+    const articles: NewsArticle[] = []
+
+    for (const item of feed) {
+      const tickerSentiments = (item['ticker_sentiment'] as Record<string, string>[] | undefined) || []
+      const tickerEntry = tickerSentiments.find((t) => t['ticker'] === ticker)
+      if (!tickerEntry) continue
+
+      const relevance = parseFloat(tickerEntry['relevance_score'] || '0')
+      const tickerScore = parseFloat(tickerEntry['ticker_sentiment_score'] || '0')
+
+      weightedSum += tickerScore * relevance
+      totalWeight += relevance
+
+      articles.push({
+        title: String(item['title'] || ''),
+        url: String(item['url'] || ''),
+        timePublished: String(item['time_published'] || ''),
+        summary: String(item['summary'] || ''),
+        source: String(item['source'] || ''),
+        overallSentimentScore: parseFloat(String(item['overall_sentiment_score'] || '0')),
+        overallSentimentLabel: String(item['overall_sentiment_label'] || 'Neutral'),
+        tickerSentimentScore: tickerScore,
+        tickerSentimentLabel: String(tickerEntry['ticker_sentiment_label'] || 'Neutral'),
+        relevanceScore: relevance,
+      })
+    }
+
+    const averageScore = totalWeight > 0 ? weightedSum / totalWeight : 0
+    let label = 'Neutral'
+    if (averageScore >= 0.35) label = 'Bullish'
+    else if (averageScore >= 0.15) label = 'Somewhat-Bullish'
+    else if (averageScore <= -0.35) label = 'Bearish'
+    else if (averageScore <= -0.15) label = 'Somewhat-Bearish'
+
+    return { averageScore, label, articleCount: articles.length, articles }
   }
 
   async getProfile(ticker: string): Promise<CompanyProfile> {

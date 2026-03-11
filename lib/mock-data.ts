@@ -1,4 +1,5 @@
 import type { Stock, PortfolioSummary, NewsArticle, WatchlistItem, ColumnConfig, StockDetail, AnalystEstimate, EarningsData, CompetitorStock } from './types'
+import type { SentimentData } from './market-data/types'
 
 export const mockStocks: Stock[] = [
   {
@@ -541,6 +542,50 @@ export function getEarningsHistory(symbol: string): EarningsData[] {
     { quarter: 'Q2 2025', date: 'Jul 25, 2025', epsActual: 1.78, epsEstimate: 1.82, surprise: -0.04, surprisePercent: -2.20 },
     { quarter: 'Q1 2025', date: 'Apr 24, 2025', epsActual: 1.68, epsEstimate: 1.65, surprise: 0.03, surprisePercent: 1.82 },
   ]
+}
+
+export function getMockSentimentData(ticker: string): SentimentData {
+  const seed = ticker.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
+  const rng = (offset: number) => ((seed * 9301 + offset * 49297) % 233280) / 233280
+  const score = (rng(1) - 0.5) * 0.8 // [-0.4, 0.4]
+
+  let label = 'Neutral'
+  if (score >= 0.35) label = 'Bullish'
+  else if (score >= 0.15) label = 'Somewhat-Bullish'
+  else if (score <= -0.35) label = 'Bearish'
+  else if (score <= -0.15) label = 'Somewhat-Bearish'
+
+  const sources = ['Bloomberg', 'Reuters', 'CNBC', 'MarketWatch', 'Barron\'s', 'The Street']
+  const sentimentLabels = ['Bullish', 'Somewhat-Bullish', 'Neutral', 'Somewhat-Bearish', 'Bearish']
+
+  const articles = Array.from({ length: 5 }, (_, i) => {
+    const articleScore = (rng(i + 10) - 0.5) * 1.2
+    const clampedScore = Math.max(-1, Math.min(1, articleScore))
+    let sentLabel = 'Neutral'
+    if (clampedScore >= 0.35) sentLabel = 'Bullish'
+    else if (clampedScore >= 0.15) sentLabel = 'Somewhat-Bullish'
+    else if (clampedScore <= -0.35) sentLabel = 'Bearish'
+    else if (clampedScore <= -0.15) sentLabel = 'Somewhat-Bearish'
+
+    const hoursAgo = Math.floor(rng(i + 20) * 48)
+    const pub = new Date(Date.now() - hoursAgo * 3600 * 1000)
+    const timePublished = pub.toISOString().replace(/[-:T.]/g, '').slice(0, 15) + '0000'
+
+    return {
+      title: `${ticker} ${sentimentLabels[i % sentimentLabels.length]} on ${sources[i % sources.length]}`,
+      url: '#',
+      timePublished,
+      summary: `Analysis of ${ticker} stock performance and market outlook based on recent developments and technical factors.`,
+      source: sources[i % sources.length],
+      overallSentimentScore: clampedScore,
+      overallSentimentLabel: sentLabel,
+      tickerSentimentScore: clampedScore,
+      tickerSentimentLabel: sentLabel,
+      relevanceScore: 0.5 + rng(i + 30) * 0.5,
+    }
+  })
+
+  return { averageScore: score, label, articleCount: articles.length, articles }
 }
 
 export function generatePriceHistory(basePrice: number, days: number): { date: string; price: number; volume: number }[] {
