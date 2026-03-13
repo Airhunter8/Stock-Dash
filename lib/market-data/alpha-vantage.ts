@@ -73,7 +73,7 @@ export class AlphaVantageProvider implements MarketDataProvider {
 
   async getHistory(ticker: string, outputSize: 'compact' | 'full' = 'compact'): Promise<HistoricalBar[]> {
     const data = await this.fetchAV({
-      function: 'TIME_SERIES_DAILY_ADJUSTED',
+      function: 'TIME_SERIES_DAILY',
       symbol: ticker,
       outputsize: outputSize,
     }) as Record<string, unknown>
@@ -89,8 +89,8 @@ export class AlphaVantageProvider implements MarketDataProvider {
       high: parseNum(bar['2. high']) ?? 0,
       low: parseNum(bar['3. low']) ?? 0,
       close: parseNum(bar['4. close']) ?? 0,
-      adjClose: parseNum(bar['5. adjusted close']) ?? 0,
-      volume: parseNum(bar['6. volume']) ?? 0,
+      adjClose: parseNum(bar['4. close']) ?? 0,
+      volume: parseNum(bar['5. volume']) ?? 0,
     }))
 
     bars.sort((a, b) => a.date.localeCompare(b.date))
