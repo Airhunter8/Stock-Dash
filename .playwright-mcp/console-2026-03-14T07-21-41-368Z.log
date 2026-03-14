@@ -1,0 +1,6 @@
+[   14697ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/login:0
+[   14986ms] Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+    at ChildProcessWorker.initialize (file://C:\Users\ryanc\Downloads\Practice\uigen\node_modules\next\dist\compiled\jest-worker\index.js:1:11580)
+    at ChildProcessWorker._onExit (file://C:\Users\ryanc\Downloads\Practice\uigen\node_modules\next\dist\compiled\jest-worker\index.js:1:12545)
+    at ChildProcess.emit (node:events:508:20)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)

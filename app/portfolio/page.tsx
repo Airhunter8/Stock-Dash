@@ -8,8 +8,12 @@ import { PortfolioStats } from '@/components/portfolio/portfolio-stats'
 import { PositionsTable } from '@/components/portfolio/positions-table'
 import { TradeHistory } from '@/components/portfolio/trade-history'
 import { TradeModal } from '@/components/portfolio/trade-modal'
+import { NewsFeed } from '@/components/dashboard/news-feed'
+import { PortfolioChart } from '@/components/dashboard/portfolio-chart'
+import { Header } from '@/components/dashboard/header'
 import { usePortfolio } from '@/hooks/use-portfolio'
 import { useRealtimePrices } from '@/hooks/use-realtime-prices'
+import { mockNews } from '@/lib/mock-data'
 import { toast } from 'sonner'
 
 export default function PortfolioPage() {
@@ -128,16 +132,22 @@ export default function PortfolioPage() {
     )
   }
 
+  const portfolioSymbols = useMemo(
+    () => enrichedPortfolio?.positions.map(p => p.ticker) ?? [],
+    [enrichedPortfolio]
+  )
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="px-4 md:px-6 py-6 max-w-[1400px] mx-auto space-y-6">
+      <Header />
+      <div className="px-4 md:px-6 pt-28 pb-32 max-w-[1400px] mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">My Portfolio</h1>
+            <h1 className="text-2xl font-bold text-foreground tracking-tight" style={{ fontFamily: 'var(--font-serif)' }}>My Portfolio</h1>
             <p className="text-muted-foreground text-sm mt-1">Manage your positions and track performance</p>
           </div>
-          <Button onClick={handleDeposit} variant="outline">
+          <Button onClick={handleDeposit} variant="outline" className="h-8 text-sm border-border/60 hover:border-primary/40 hover:text-primary hover:bg-primary/5">
             + Deposit $10,000
           </Button>
         </div>
@@ -152,6 +162,11 @@ export default function PortfolioPage() {
         ) : enrichedPortfolio ? (
           <PortfolioStats portfolio={enrichedPortfolio} />
         ) : null}
+
+        {/* Chart */}
+        {enrichedPortfolio && (
+          <PortfolioChart totalValue={enrichedPortfolio.totalValue} />
+        )}
 
         {/* Tabs */}
         <Tabs defaultValue="positions" onValueChange={(v) => v === 'transactions' && fetchTransactions()}>
@@ -179,6 +194,8 @@ export default function PortfolioPage() {
             )}
           </TabsContent>
         </Tabs>
+
+        <NewsFeed articles={mockNews} portfolioSymbols={portfolioSymbols} />
       </div>
 
       {tradeModal && enrichedPortfolio && (

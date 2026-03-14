@@ -11,7 +11,17 @@
       "Bash(powershell -Command \"Get-Process -Id 16844 -ErrorAction SilentlyContinue | Stop-Process -Force; Write-Host 'Done'\")",
       "Bash(cd \"C:/Users/ryanc/Downloads/Practice/Stock-Dash/backend\" && npm install ws && npm install --save-dev @types/ws)",
       "Bash(cd \"C:/Users/ryanc/Downloads/Practice/Stock-Dash\" && npx prisma db execute --stdin <<'EOF'\nDELETE FROM \"Portfolio\";\nEOF)",
-      "Bash(cd \"C:/Users/ryanc/Downloads/Practice/Stock-Dash\" && node -e \"\nconst { PrismaClient } = require\\('@prisma/client'\\);\nconst prisma = new PrismaClient\\(\\);\nprisma.portfolio.deleteMany\\(\\).then\\(r => { console.log\\('Deleted', r.count, 'portfolio\\(s\\)'\\); return prisma.\\\\$disconnect\\(\\); }\\);\n\")"
+      "Bash(cd \"C:/Users/ryanc/Downloads/Practice/Stock-Dash\" && node -e \"\nconst { PrismaClient } = require\\('@prisma/client'\\);\nconst prisma = new PrismaClient\\(\\);\nprisma.portfolio.deleteMany\\(\\).then\\(r => { console.log\\('Deleted', r.count, 'portfolio\\(s\\)'\\); return prisma.\\\\$disconnect\\(\\); }\\);\n\")",
+      "Bash(netstat -ano | grep -E \"LISTENING\" | grep -E \":3000|:3001|:3002\")",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "WebSearch",
+      "Bash(cd:*)",
+      "Bash(netstat:*)",
+      "Bash(grep:*)",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click"
     ]
   }
 }

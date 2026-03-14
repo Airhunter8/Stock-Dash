@@ -82,7 +82,7 @@ function RuleEditor({
   const useCompare = rule.condition === 'CROSSES_ABOVE' || rule.condition === 'CROSSES_BELOW'
 
   return (
-    <div className="rounded-md border border-border p-3 space-y-3 bg-muted/20">
+    <div className="rounded-xl border border-border/60 p-3 space-y-3 bg-secondary/20">
       <div className="flex items-center gap-2">
         <div className="flex-1 grid grid-cols-2 gap-2">
           <div className="space-y-1">
@@ -218,20 +218,21 @@ export function BacktestForm({ onSubmit, isLoading }: BacktestFormProps) {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Strategy Configuration</CardTitle>
+    <Card className="border-border/60">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base font-semibold">Strategy Configuration</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Preset strategies */}
           <div className="space-y-2">
-            <Label className="text-xs text-muted-foreground uppercase tracking-wide">Presets</Label>
+            <Label className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Presets</Label>
             <div className="flex gap-2 flex-wrap">
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
+                className="h-7 text-xs border-border/60 hover:border-primary/40 hover:text-primary hover:bg-primary/5"
                 onClick={() => {
                   setBuyRules(MA_CROSSOVER_BUY)
                   setSellRules(MA_CROSSOVER_SELL)
@@ -243,6 +244,7 @@ export function BacktestForm({ onSubmit, isLoading }: BacktestFormProps) {
                 type="button"
                 variant="outline"
                 size="sm"
+                className="h-7 text-xs border-border/60 hover:border-primary/40 hover:text-primary hover:bg-primary/5"
                 onClick={() => {
                   setBuyRules(RSI_BUY)
                   setSellRules(RSI_SELL)

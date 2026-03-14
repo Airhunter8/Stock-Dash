@@ -141,11 +141,116 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-background">
       <Header onSearch={setSearchQuery} />
 
-      <main className="px-4 md:px-6 py-6 max-w-[1600px] mx-auto">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+      {/* ── Cinematic full-bleed hero ── */}
+      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+
+        {/* Chiaroscuro background — single warm light from above, falling into darkness */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(ellipse 55% 65% at 50% 15%, oklch(0.26 0.055 68 / 0.75) 0%, transparent 58%),
+              radial-gradient(ellipse 80% 40% at 50% 0%,  oklch(0.74 0.18 68 / 0.07) 0%, transparent 55%),
+              radial-gradient(ellipse 30% 50% at 15% 80%, oklch(0.74 0.18 68 / 0.04) 0%, transparent 50%),
+              oklch(0.04 0.004 65)
+            `,
+          }}
+        />
+
+        {/* Subtle grid texture */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: `
+              linear-gradient(oklch(0.74 0.18 68) 1px, transparent 1px),
+              linear-gradient(90deg, oklch(0.74 0.18 68) 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px',
+          }}
+        />
+
+        {/* Dark vignette overlay at edges */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(ellipse 100% 100% at 50% 50%,
+                transparent 40%,
+                oklch(0.02 0.002 65 / 0.6) 100%)
+            `,
+          }}
+        />
+
+        {/* Center hero content */}
+        <div className="relative z-10 flex flex-col items-center text-center px-6 select-none">
+          {/* Thin decorative rule */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="h-px w-16 bg-primary/40" />
+            <span
+              className="text-[10px] tracking-[0.35em] uppercase text-primary/70 font-medium"
+            >
+              Est. 2024
+            </span>
+            <div className="h-px w-16 bg-primary/40" />
+          </div>
+
+          {/* Main serif heading */}
+          <h1
+            className="text-6xl sm:text-7xl md:text-8xl font-bold text-foreground leading-none tracking-tight mb-6"
+            style={{ fontFamily: 'var(--font-serif)', textShadow: '0 2px 40px oklch(0.74 0.18 68 / 0.18)' }}
+          >
+            <span className="text-primary">Stoc</span>
+            <span className="text-foreground/95">Flow</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p
+            className="text-base sm:text-lg text-foreground/45 tracking-[0.08em] mb-10 max-w-xs"
+          >
+            Reinventing Stocks
+          </p>
+
+          {/* Underlined "Discover" link — editorial convention */}
+          <a
+            href="#dashboard"
+            className="text-sm tracking-[0.2em] uppercase text-foreground/60 hover:text-primary transition-colors duration-300"
+            style={{ borderBottom: '1px solid currentColor', paddingBottom: '2px' }}
+          >
+            Discover
+          </a>
+        </div>
+
+        {/* Award badge — bottom-left floating circle */}
+        <div
+          className="absolute bottom-16 left-8 h-20 w-20 rounded-full flex flex-col items-center justify-center"
+          style={{
+            border: '1px solid oklch(0.74 0.18 68 / 0.35)',
+            boxShadow: '0 0 0 6px oklch(0.74 0.18 68 / 0.06), inset 0 0 12px oklch(0.74 0.18 68 / 0.05)',
+            background: 'oklch(0.075 0.01 65 / 0.5)',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <div
+            className="h-[68px] w-[68px] rounded-full flex flex-col items-center justify-center"
+            style={{ border: '1px solid oklch(0.74 0.18 68 / 0.2)' }}
+          >
+            <span className="text-[7px] tracking-[0.25em] uppercase text-primary/70 leading-none">Stoc</span>
+            <span className="text-[10px] tracking-[0.1em] uppercase text-primary font-semibold leading-none mt-0.5" style={{ fontFamily: 'var(--font-serif)' }}>Flow</span>
+            <div className="h-px w-6 bg-primary/30 my-1" />
+            <span className="text-[8px] tracking-[0.15em] text-foreground/40 leading-none">2024</span>
+          </div>
+        </div>
+
+      </section>
+
+      {/* ── Dashboard content ── */}
+      <main id="dashboard" className="px-4 md:px-6 pt-16 pb-32 max-w-[1600px] mx-auto">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-foreground">Welcome back, Trader</h2>
-            <p className="text-muted-foreground mt-1">{"Here's your portfolio overview"}</p>
+            <h2 className="text-3xl font-bold text-foreground tracking-tight" style={{ fontFamily: 'var(--font-serif)' }}>
+              Welcome back, Trader
+            </h2>
+            <p className="text-muted-foreground mt-1.5 text-sm tracking-wide">{"Here's your portfolio overview"}</p>
           </div>
           <MarketStatus />
         </div>
@@ -191,6 +296,7 @@ export default function DashboardPage() {
           <NewsFeed articles={mockNews} portfolioSymbols={portfolioSymbols} />
         </div>
       </main>
+      {/* spacer for fixed bottom MENU button */}
 
       <StockDetailModal
         stock={selectedStock}

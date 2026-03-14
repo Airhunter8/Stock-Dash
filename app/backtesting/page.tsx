@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { BacktestForm, type BacktestConfig } from '@/components/backtesting/backtest-form'
 import { BacktestResults, type BacktestResult } from '@/components/backtesting/backtest-results'
+import { Header } from '@/components/dashboard/header'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
 
@@ -36,10 +37,11 @@ export default function BacktestingPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="px-4 md:px-6 py-6 max-w-[1400px] mx-auto space-y-6">
+      <Header />
+      <div className="px-4 md:px-6 pt-28 pb-32 max-w-[1400px] mx-auto space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Strategy Backtester</h1>
+          <h1 className="text-2xl font-bold text-foreground tracking-tight" style={{ fontFamily: 'var(--font-serif)' }}>Strategy Backtester</h1>
           <p className="text-muted-foreground text-sm mt-1">
             Test trading strategies against historical data
           </p>
@@ -67,9 +69,9 @@ export default function BacktestingPage() {
             ) : result ? (
               <BacktestResults result={result} />
             ) : (
-              <div className="flex flex-col items-center justify-center h-64 text-center space-y-2 rounded-xl border border-border bg-card">
-                <p className="text-muted-foreground">Configure a strategy and run a backtest.</p>
-                <p className="text-sm text-muted-foreground">Results will appear here.</p>
+              <div className="flex flex-col items-center justify-center h-64 text-center space-y-1.5 rounded-xl border border-border/60 bg-card">
+                <p className="text-sm font-medium text-muted-foreground">Configure a strategy and run a backtest.</p>
+                <p className="text-xs text-muted-foreground/60">Results will appear here.</p>
               </div>
             )}
           </div>

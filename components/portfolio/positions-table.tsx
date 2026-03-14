@@ -28,46 +28,47 @@ function fmtPct(v: number) {
 export function PositionsTable({ positions, onTrade }: PositionsTableProps) {
   if (!positions.length) {
     return (
-      <div className="flex items-center justify-center h-40 text-muted-foreground text-sm">
-        No positions yet. Start trading to build your portfolio.
+      <div className="flex flex-col items-center justify-center h-48 gap-2 text-muted-foreground">
+        <div className="text-sm font-medium">No positions yet</div>
+        <div className="text-xs text-muted-foreground/60">Start trading to build your portfolio.</div>
       </div>
     )
   }
 
   return (
-    <div className="rounded-md border border-border overflow-hidden">
+    <div className="rounded-xl border border-border/60 overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Ticker</TableHead>
-            <TableHead className="text-right">Shares</TableHead>
-            <TableHead className="text-right">Avg Cost</TableHead>
-            <TableHead className="text-right">Current Price</TableHead>
-            <TableHead className="text-right">Current Value</TableHead>
-            <TableHead className="text-right">Unrealized P/L</TableHead>
-            <TableHead className="text-right">P/L %</TableHead>
-            <TableHead className="text-center">Actions</TableHead>
+          <TableRow className="border-border/60 hover:bg-transparent">
+            <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Ticker</TableHead>
+            <TableHead className="text-right text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Shares</TableHead>
+            <TableHead className="text-right text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Avg Cost</TableHead>
+            <TableHead className="text-right text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Current Price</TableHead>
+            <TableHead className="text-right text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Current Value</TableHead>
+            <TableHead className="text-right text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Unrealized P/L</TableHead>
+            <TableHead className="text-right text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">P/L %</TableHead>
+            <TableHead className="text-center text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {positions.map((pos) => {
             const isPositive = pos.unrealizedPnl >= 0
             return (
-              <TableRow key={pos.ticker}>
+              <TableRow key={pos.ticker} className="border-border/30 hover:bg-accent/40 transition-colors">
                 <TableCell>
-                  <div className="font-semibold text-foreground">{pos.ticker}</div>
+                  <div className="font-semibold text-sm text-foreground">{pos.ticker}</div>
                 </TableCell>
-                <TableCell className="text-right">{pos.shares.toLocaleString()}</TableCell>
-                <TableCell className="text-right">{fmt(pos.avgCost)}</TableCell>
-                <TableCell className="text-right">{fmt(pos.currentPrice)}</TableCell>
-                <TableCell className="text-right font-medium">{fmt(pos.currentValue)}</TableCell>
-                <TableCell className={`text-right font-medium ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+                <TableCell className="text-right text-sm tabular-nums">{pos.shares.toLocaleString()}</TableCell>
+                <TableCell className="text-right text-sm tabular-nums">{fmt(pos.avgCost)}</TableCell>
+                <TableCell className="text-right text-sm tabular-nums">{fmt(pos.currentPrice)}</TableCell>
+                <TableCell className="text-right text-sm font-medium tabular-nums">{fmt(pos.currentValue)}</TableCell>
+                <TableCell className={`text-right text-sm font-medium tabular-nums ${isPositive ? 'text-primary' : 'text-destructive'}`}>
                   {isPositive ? '+' : ''}{fmt(pos.unrealizedPnl)}
                 </TableCell>
                 <TableCell className="text-right">
                   <Badge
                     variant="outline"
-                    className={`${isPositive ? 'text-green-500 border-green-500/30 bg-green-500/10' : 'text-red-500 border-red-500/30 bg-red-500/10'}`}
+                    className={`text-xs tabular-nums font-semibold ${isPositive ? 'text-primary border-primary/30 bg-primary/10' : 'text-destructive border-destructive/30 bg-destructive/10'}`}
                   >
                     {fmtPct(pos.unrealizedPnlPercent)}
                   </Badge>
@@ -77,7 +78,7 @@ export function PositionsTable({ positions, onTrade }: PositionsTableProps) {
                     variant="outline"
                     size="sm"
                     onClick={() => onTrade(pos.ticker)}
-                    className="h-7 px-3 text-xs"
+                    className="h-7 px-3 text-xs border-border/60 hover:border-primary/40 hover:text-primary hover:bg-primary/5"
                   >
                     Trade
                   </Button>

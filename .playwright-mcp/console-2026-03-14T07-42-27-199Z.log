@@ -1,0 +1,3 @@
+[    5155ms] [ERROR] WebSocket connection to 'ws://localhost:3002/socket.io/?EIO=4&transport=websocket' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3005/_next/static/chunks/node_modules_42a41020._.js:18778
+[    8203ms] [ERROR] WebSocket connection to 'ws://localhost:3002/socket.io/?EIO=4&transport=websocket' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3005/_next/static/chunks/node_modules_42a41020._.js:18778
+[   12915ms] [ERROR] WebSocket connection to 'ws://localhost:3002/socket.io/?EIO=4&transport=websocket' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3005/_next/static/chunks/node_modules_42a41020._.js:18778

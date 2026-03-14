@@ -15,6 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useWatchlist } from '@/hooks/use-watchlist'
+import { Header } from '@/components/dashboard/header'
 import { toast } from 'sonner'
 import { Search, Trash2, ExternalLink, TrendingUp, TrendingDown } from 'lucide-react'
 
@@ -88,20 +89,21 @@ export default function WatchlistPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="px-4 md:px-6 py-6 max-w-[900px] mx-auto space-y-6">
+      <Header />
+      <div className="px-4 md:px-6 pt-28 pb-32 max-w-[900px] mx-auto space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Watchlist</h1>
+          <h1 className="text-2xl font-bold text-foreground" style={{ fontFamily: 'var(--font-serif)' }}>Watchlist</h1>
           <p className="text-muted-foreground text-sm mt-1">Track stocks you are interested in</p>
         </div>
 
         {/* Search */}
         <div className="relative">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input
               placeholder="Search and add stocks (e.g. AAPL)"
-              className="pl-10"
+              className="pl-9 bg-card border-border/60 h-10 rounded-xl"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value)
@@ -117,7 +119,7 @@ export default function WatchlistPage() {
             />
           </div>
           {showSuggestions && suggestions.length > 0 && (
-            <div className="absolute z-10 top-full mt-1 w-full bg-card border border-border rounded-md shadow-lg overflow-hidden">
+            <div className="absolute z-10 top-full mt-1 w-full bg-card border border-border/60 rounded-xl shadow-xl overflow-hidden">
               {suggestions.map((s) => (
                 <button
                   key={s.ticker}
@@ -140,21 +142,21 @@ export default function WatchlistPage() {
             ))}
           </div>
         ) : items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-48 text-center space-y-2">
-            <p className="text-muted-foreground">Your watchlist is empty.</p>
-            <p className="text-sm text-muted-foreground">Search for a stock above to add it.</p>
+          <div className="flex flex-col items-center justify-center h-48 text-center space-y-1.5">
+            <p className="text-sm font-medium text-muted-foreground">Your watchlist is empty.</p>
+            <p className="text-xs text-muted-foreground/60">Search for a stock above to add it.</p>
           </div>
         ) : (
-          <div className="rounded-md border border-border overflow-hidden">
+          <div className="rounded-xl border border-border/60 overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>Ticker</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead className="text-right">Price</TableHead>
-                  <TableHead className="text-right">Change</TableHead>
-                  <TableHead className="text-right">Change %</TableHead>
-                  <TableHead className="text-center">Actions</TableHead>
+                <TableRow className="border-border/60 hover:bg-transparent">
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Ticker</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Name</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Price</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Change</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Change %</TableHead>
+                  <TableHead className="text-center text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -163,17 +165,17 @@ export default function WatchlistPage() {
                   return (
                     <TableRow
                       key={item.ticker}
-                      className="cursor-pointer"
+                      className="cursor-pointer border-border/30 hover:bg-accent/40 transition-colors"
                       onClick={() => router.push(`/stock/${item.ticker}`)}
                     >
-                      <TableCell className="font-semibold">{item.ticker}</TableCell>
+                      <TableCell className="font-semibold text-sm">{item.ticker}</TableCell>
                       <TableCell className="text-muted-foreground text-sm">
                         {item.name ?? '—'}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right text-sm tabular-nums">
                         {item.price != null ? fmt(item.price) : '—'}
                       </TableCell>
-                      <TableCell className={`text-right text-sm ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+                      <TableCell className={`text-right text-sm tabular-nums ${isPositive ? 'text-primary' : 'text-destructive'}`}>
                         {item.change != null ? (
                           <span className="flex items-center justify-end gap-1">
                             {isPositive ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
@@ -185,7 +187,7 @@ export default function WatchlistPage() {
                         {item.changePercent != null ? (
                           <Badge
                             variant="outline"
-                            className={`${isPositive ? 'text-green-500 border-green-500/30 bg-green-500/10' : 'text-red-500 border-red-500/30 bg-red-500/10'}`}
+                            className={`text-xs font-semibold tabular-nums ${isPositive ? 'text-primary border-primary/30 bg-primary/10' : 'text-destructive border-destructive/30 bg-destructive/10'}`}
                           >
                             {fmtPct(item.changePercent)}
                           </Badge>
@@ -196,7 +198,7 @@ export default function WatchlistPage() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-7 w-7"
+                            className="h-7 w-7 hover:text-primary"
                             onClick={() => router.push(`/stock/${item.ticker}`)}
                             title="View chart"
                           >

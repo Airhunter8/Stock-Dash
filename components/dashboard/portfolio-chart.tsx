@@ -81,20 +81,24 @@ export function PortfolioChart({ totalValue }: PortfolioChartProps) {
 
   const startValue = chartData[0]?.value ?? 0
   const isPositive = totalValue >= startValue
-  const color = isPositive ? 'oklch(0.75 0.18 145)' : 'oklch(0.6 0.2 25)'
+  const color = isPositive ? 'oklch(0.74 0.18 68)' : 'oklch(0.60 0.22 25)'
 
   return (
-    <Card className="bg-card border-border">
+    <Card className="bg-card border-border/60 luxury-glow">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-xl text-foreground">Portfolio Performance</CardTitle>
-        <div className="flex gap-1">
+        <CardTitle className="text-base font-semibold text-foreground" style={{ fontFamily: 'var(--font-serif)' }}>Portfolio Performance</CardTitle>
+        <div className="flex gap-0.5">
           {TIME_RANGES.map((range) => (
             <Button
               key={range}
-              variant={timeRange === range ? 'default' : 'ghost'}
+              variant="ghost"
               size="sm"
               onClick={() => setTimeRange(range)}
-              className={`text-xs px-2 ${timeRange === range ? 'bg-primary text-primary-foreground' : ''}`}
+              className={`text-xs px-2 h-7 rounded-md ${
+                timeRange === range
+                  ? 'bg-primary/15 text-primary font-semibold hover:bg-primary/20'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
             >
               {range}
             </Button>
@@ -104,7 +108,7 @@ export function PortfolioChart({ totalValue }: PortfolioChartProps) {
       <CardContent>
         <div className="h-64">
           {isLoading ? (
-            <Skeleton className="h-full w-full rounded-lg" />
+            <Skeleton className="h-full w-full rounded-xl" />
           ) : chartData.length === 0 ? (
             <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
               No historical data available
@@ -114,7 +118,7 @@ export function PortfolioChart({ totalValue }: PortfolioChartProps) {
               <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={color} stopOpacity={0.3} />
+                    <stop offset="5%" stopColor={color} stopOpacity={0.25} />
                     <stop offset="95%" stopColor={color} stopOpacity={0} />
                   </linearGradient>
                 </defs>
@@ -122,7 +126,7 @@ export function PortfolioChart({ totalValue }: PortfolioChartProps) {
                   dataKey="time"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: 'oklch(0.6 0 0)', fontSize: 12 }}
+                  tick={{ fill: 'oklch(0.5 0 0)', fontSize: 11 }}
                   interval="preserveStartEnd"
                 />
                 <YAxis hide domain={['dataMin - 1000', 'dataMax + 1000']} />
@@ -130,14 +134,14 @@ export function PortfolioChart({ totalValue }: PortfolioChartProps) {
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       return (
-                        <div className="bg-popover border border-border rounded-lg p-3 shadow-lg">
-                          <p className="text-foreground font-semibold">
+                        <div className="bg-card border border-border/60 rounded-xl px-3 py-2.5 shadow-xl">
+                          <p className="text-foreground font-semibold tabular-nums text-sm">
                             ${payload[0].value?.toLocaleString(undefined, {
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
                             })}
                           </p>
-                          <p className="text-muted-foreground text-sm">{payload[0].payload.time}</p>
+                          <p className="text-muted-foreground text-xs mt-0.5">{payload[0].payload.time}</p>
                         </div>
                       )
                     }
@@ -148,7 +152,7 @@ export function PortfolioChart({ totalValue }: PortfolioChartProps) {
                   type="monotone"
                   dataKey="value"
                   stroke={color}
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   fillOpacity={1}
                   fill="url(#colorValue)"
                 />

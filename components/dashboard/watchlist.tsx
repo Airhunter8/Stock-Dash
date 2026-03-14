@@ -21,36 +21,36 @@ function formatCurrency(value: number): string {
 
 export function Watchlist({ items, onAddStock }: WatchlistProps) {
   return (
-    <Card className="bg-card border-border">
-      <CardHeader className="flex flex-row items-center justify-between pb-4">
+    <Card className="bg-card border-border/60">
+      <CardHeader className="flex flex-row items-center justify-between pb-3 pt-5">
         <div className="flex items-center gap-2">
-          <Star className="h-5 w-5 text-warning" />
-          <CardTitle className="text-xl text-foreground">Watchlist</CardTitle>
+          <Star className="h-4 w-4 text-warning fill-warning/30" />
+          <CardTitle className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">Watchlist</CardTitle>
         </div>
-        <Button variant="outline" size="sm" className="gap-2 bg-transparent" onClick={onAddStock}>
-          <Plus className="h-4 w-4" />
+        <Button variant="outline" size="sm" className="gap-1.5 bg-transparent border-border/60 text-xs h-7 px-2.5 hover:border-primary/40 hover:text-primary hover:bg-primary/5" onClick={onAddStock}>
+          <Plus className="h-3 w-3" />
           Add
         </Button>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
+      <CardContent className="pt-1">
+        <div className="space-y-1">
           {items.map(item => {
             const isPositive = item.change >= 0
             return (
               <div
                 key={item.symbol}
-                className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-secondary/50 transition-colors cursor-pointer"
+                className="flex items-center justify-between px-2 py-2.5 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
               >
                 <div>
-                  <p className="font-semibold text-foreground">{item.symbol}</p>
-                  <p className="text-sm text-muted-foreground">{item.name}</p>
+                  <p className="font-semibold text-sm text-foreground">{item.symbol}</p>
+                  <p className="text-xs text-muted-foreground">{item.name}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium text-foreground">{formatCurrency(item.price)}</p>
-                  <p className={`text-sm flex items-center justify-end gap-1 ${isPositive ? 'text-primary' : 'text-destructive'}`}>
+                  <p className="font-semibold text-sm text-foreground tabular-nums">{formatCurrency(item.price)}</p>
+                  <span className={`inline-flex items-center gap-0.5 text-xs font-semibold tabular-nums ${isPositive ? 'text-primary' : 'text-destructive'}`}>
                     {isPositive ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
                     {isPositive ? '+' : ''}{item.changePercent.toFixed(2)}%
-                  </p>
+                  </span>
                 </div>
               </div>
             )

@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Header } from '@/components/dashboard/header'
 import { StockSelector } from '@/components/predictions/StockSelector'
 import { HorizonTabs } from '@/components/predictions/HorizonTabs'
 import { TechnicalPanel } from '@/components/predictions/TechnicalPanel'
@@ -57,9 +58,10 @@ export default function PredictionsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="px-4 md:px-6 py-6 max-w-[1400px] mx-auto space-y-6">
+      <Header />
+      <div className="px-4 md:px-6 pt-28 pb-32 max-w-[1400px] mx-auto space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Stock Predictions</h1>
+          <h1 className="text-2xl font-bold text-foreground" style={{ fontFamily: 'var(--font-serif)' }}>Stock Predictions</h1>
           <p className="text-muted-foreground text-sm mt-1">
             Algorithmic Bull / Base / Bear scenarios across 7d, 30d, and 90d horizons
           </p>
@@ -133,9 +135,9 @@ export default function PredictionsPage() {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-64 text-center space-y-2 rounded-xl border border-border bg-card">
-                <p className="text-muted-foreground">Select a stock and click Analyze.</p>
-                <p className="text-sm text-muted-foreground">Bull / Base / Bear scenarios will appear here.</p>
+              <div className="flex flex-col items-center justify-center h-64 text-center space-y-1.5 rounded-xl border border-border/50 bg-card">
+                <p className="text-sm font-medium text-muted-foreground">Select a stock and click Analyze.</p>
+                <p className="text-xs text-muted-foreground/50">Bull / Base / Bear scenarios will appear here.</p>
               </div>
             )}
           </div>

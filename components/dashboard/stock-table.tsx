@@ -70,7 +70,7 @@ function getCellValue(stock: Stock, columnKey: ColumnKey): React.ReactNode {
       )
     case 'dayChangePercent':
       return (
-        <span className={`flex items-center gap-1 ${dayChangePercent >= 0 ? 'text-primary' : 'text-destructive'}`}>
+        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold tabular-nums ${dayChangePercent >= 0 ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'}`}>
           {dayChangePercent >= 0 ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
           {dayChangePercent >= 0 ? '+' : ''}{dayChangePercent.toFixed(2)}%
         </span>
@@ -83,7 +83,7 @@ function getCellValue(stock: Stock, columnKey: ColumnKey): React.ReactNode {
       )
     case 'totalGainPercent':
       return (
-        <span className={`flex items-center gap-1 ${totalGainPercent >= 0 ? 'text-primary' : 'text-destructive'}`}>
+        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold tabular-nums ${totalGainPercent >= 0 ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'}`}>
           {totalGainPercent >= 0 ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
           {totalGainPercent >= 0 ? '+' : ''}{totalGainPercent.toFixed(2)}%
         </span>
@@ -118,13 +118,13 @@ export function StockTable({ stocks, columns, onColumnsChange, onStockSelect }: 
   }
 
   return (
-    <Card className="bg-card border-border">
+    <Card className="bg-card border-border/60">
       <CardHeader className="flex flex-row items-center justify-between pb-4">
-        <CardTitle className="text-xl text-foreground">Your Holdings</CardTitle>
+        <CardTitle className="text-base font-semibold text-foreground">Your Holdings</CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2 bg-transparent">
-              <Settings2 className="h-4 w-4" />
+            <Button variant="outline" size="sm" className="gap-2 bg-transparent border-border/60 text-xs h-7 px-2.5">
+              <Settings2 className="h-3.5 w-3.5" />
               Columns
             </Button>
           </DropdownMenuTrigger>
@@ -147,35 +147,35 @@ export function StockTable({ stocks, columns, onColumnsChange, onStockSelect }: 
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Symbol</th>
+              <tr className="border-b border-border/60">
+                <th className="text-left py-3 px-4 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Symbol</th>
                 {visibleColumns.map(col => (
-                  <th key={col.key} className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
+                  <th key={col.key} className="text-right py-3 px-4 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
                     {col.label}
                   </th>
                 ))}
-                <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground w-12">Details</th>
+                <th className="text-center py-3 px-4 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground w-12">Details</th>
               </tr>
             </thead>
             <tbody>
               {stocks.map(stock => (
                 <tr
                   key={stock.symbol}
-                  className={`border-b border-border/50 cursor-pointer transition-colors ${
-                    hoveredStock === stock.symbol ? 'bg-secondary/50' : 'hover:bg-secondary/30'
+                  className={`border-b border-border/30 cursor-pointer transition-colors ${
+                    hoveredStock === stock.symbol ? 'bg-accent/60' : 'hover:bg-accent/40'
                   }`}
                   onMouseEnter={() => setHoveredStock(stock.symbol)}
                   onMouseLeave={() => setHoveredStock(null)}
                   onClick={() => onStockSelect(stock)}
                 >
-                  <td className="py-4 px-4">
+                  <td className="py-3.5 px-4">
                     <div className="flex flex-col">
-                      <span className="font-semibold text-foreground">{stock.symbol}</span>
-                      <span className="text-sm text-muted-foreground">{stock.name}</span>
+                      <span className="font-semibold text-sm text-foreground">{stock.symbol}</span>
+                      <span className="text-xs text-muted-foreground">{stock.name}</span>
                     </div>
                   </td>
                   {visibleColumns.map(col => (
-                    <td key={col.key} className="text-right py-4 px-4 text-sm text-foreground">
+                    <td key={col.key} className="text-right py-3.5 px-4 text-sm text-foreground tabular-nums">
                       {getCellValue(stock, col.key)}
                     </td>
                   ))}
