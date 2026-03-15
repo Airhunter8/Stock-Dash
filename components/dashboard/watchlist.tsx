@@ -24,31 +24,52 @@ export function Watchlist({ items, onAddStock }: WatchlistProps) {
     <Card className="bg-card border-border/60">
       <CardHeader className="flex flex-row items-center justify-between pb-3 pt-5">
         <div className="flex items-center gap-2">
-          <Star className="h-4 w-4 text-warning fill-warning/30" />
-          <CardTitle className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">Watchlist</CardTitle>
+          <Star className="h-3.5 w-3.5 text-warning fill-warning/40" />
+          <CardTitle className="text-[9px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Watchlist</CardTitle>
         </div>
-        <Button variant="outline" size="sm" className="gap-1.5 bg-transparent border-border/60 text-xs h-7 px-2.5 hover:border-primary/40 hover:text-primary hover:bg-primary/5" onClick={onAddStock}>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-1.5 bg-transparent border-border/60 text-[10px] h-6 px-2.5 cursor-pointer hover:border-primary/50 hover:text-primary hover:bg-primary/8 transition-all"
+          style={{ transitionTimingFunction: 'var(--ease-expo)', transitionDuration: '250ms' }}
+          onClick={onAddStock}
+        >
           <Plus className="h-3 w-3" />
           Add
         </Button>
       </CardHeader>
-      <CardContent className="pt-1">
-        <div className="space-y-1">
+      <CardContent className="pt-0 px-3">
+        <div className="space-y-0.5">
           {items.map(item => {
             const isPositive = item.change >= 0
             return (
               <div
                 key={item.symbol}
-                className="flex items-center justify-between px-2 py-2.5 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
+                className="relative flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer group transition-all"
+                style={{ transitionTimingFunction: 'var(--ease-expo)', transitionDuration: '200ms' }}
               >
-                <div>
-                  <p className="font-semibold text-sm text-foreground">{item.symbol}</p>
-                  <p className="text-xs text-muted-foreground">{item.name}</p>
+                {/* Left accent bar — slides in on hover */}
+                <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-[2px] rounded-r-full h-0 group-hover:h-7 transition-all duration-200 ${isPositive ? 'bg-emerald-400' : 'bg-destructive'}`}
+                  style={{ transitionTimingFunction: 'var(--ease-expo)' }}
+                />
+                {/* Hover background */}
+                <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 bg-white/[0.03] transition-opacity duration-200" />
+
+                <div className="relative flex items-center gap-2.5">
+                  {/* Ticker badge */}
+                  <div className={`h-7 w-7 rounded-lg flex items-center justify-center text-[9px] font-bold shrink-0 ${isPositive ? 'bg-emerald-400/10 text-emerald-400' : 'bg-destructive/10 text-destructive'}`}>
+                    {item.symbol.slice(0, 2)}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[13px] text-foreground leading-none">{item.symbol}</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5 leading-none truncate max-w-[80px]">{item.name}</p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-semibold text-sm text-foreground tabular-nums">{formatCurrency(item.price)}</p>
-                  <span className={`inline-flex items-center gap-0.5 text-xs font-semibold tabular-nums ${isPositive ? 'text-primary' : 'text-destructive'}`}>
-                    {isPositive ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
+
+                <div className="relative text-right">
+                  <p className="font-semibold text-[13px] text-foreground tabular-nums leading-none">{formatCurrency(item.price)}</p>
+                  <span className={`inline-flex items-center gap-0.5 text-[10px] font-semibold tabular-nums mt-0.5 ${isPositive ? 'text-emerald-400' : 'text-destructive'}`}>
+                    {isPositive ? <ArrowUp className="h-2.5 w-2.5" /> : <ArrowDown className="h-2.5 w-2.5" />}
                     {isPositive ? '+' : ''}{item.changePercent.toFixed(2)}%
                   </span>
                 </div>

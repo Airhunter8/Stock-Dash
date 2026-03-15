@@ -21,7 +21,22 @@
       "Bash(grep:*)",
       "mcp__playwright__browser_wait_for",
       "mcp__playwright__browser_snapshot",
-      "mcp__playwright__browser_click"
+      "mcp__playwright__browser_click",
+      "Bash(npm install:*)",
+      "Bash(npm list:*)",
+      "Bash(claude mcp:*)",
+      "Bash(gh:*)",
+      "Bash(winget install:*)",
+      "Bash(cmd.exe /c \"gh --version\" 2>&1)",
+      "Bash(cmd.exe /c \"where gh\" 2>&1)",
+      "Bash(export:*)",
+      "Bash(pnpm i:*)",
+      "Bash(vercel:*)",
+      "Bash(npx:*)",
+      "Bash(claude:*)",
+      "Bash(winget search:*)",
+      "Bash(scoop bucket:*)",
+      "Bash(curl:*)"
     ]
   }
 }

@@ -4,6 +4,11 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Premium easing — expo-out for all transitions */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
   /* Deep warm blacks */
   --background: oklch(0.075 0.01 65);
   --foreground: oklch(0.96 0.010 75);
@@ -295,8 +300,8 @@
       0 0 0 1px color-mix(in oklch, var(--primary) 15%, transparent),
       0 6px 32px color-mix(in oklch, var(--primary) 12%, transparent),
       0 2px 8px oklch(0.00 0.00 0 / 0.40),
-      inset 0 1px 0 color-mix(in oklch, var(--primary) 10%, transparent);
-    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+      inset 0 1px 0 color-mix(in oklch, var(--primary) 12%, oklch(1 0 0 / 0.06));
+    transition: box-shadow 0.3s var(--ease-expo), border-color 0.3s var(--ease-expo), transform 0.15s var(--ease-expo);
   }
   [data-slot="card"]:hover {
     border-color: color-mix(in oklch, var(--primary) 34%, transparent);
@@ -304,7 +309,10 @@
       0 0 0 1px color-mix(in oklch, var(--primary) 28%, transparent),
       0 10px 44px color-mix(in oklch, var(--primary) 16%, transparent),
       0 4px 12px oklch(0.00 0.00 0 / 0.45),
-      inset 0 1px 0 color-mix(in oklch, var(--primary) 14%, transparent);
+      inset 0 1px 0 color-mix(in oklch, var(--primary) 16%, oklch(1 0 0 / 0.08));
+  }
+  [data-slot="card"]:active {
+    transform: scale(0.995);
   }
 
   /* Custom scrollbar — warm amber tint */

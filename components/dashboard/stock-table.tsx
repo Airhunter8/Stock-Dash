@@ -161,17 +161,25 @@ export function StockTable({ stocks, columns, onColumnsChange, onStockSelect }: 
               {stocks.map(stock => (
                 <tr
                   key={stock.symbol}
-                  className={`border-b border-border/30 cursor-pointer transition-colors ${
-                    hoveredStock === stock.symbol ? 'bg-accent/60' : 'hover:bg-accent/40'
-                  }`}
+                  className="border-b border-border/20 cursor-pointer group transition-all"
+                  style={{ transitionTimingFunction: 'var(--ease-expo)', transitionDuration: '150ms' }}
                   onMouseEnter={() => setHoveredStock(stock.symbol)}
                   onMouseLeave={() => setHoveredStock(null)}
                   onClick={() => onStockSelect(stock)}
                 >
-                  <td className="py-3.5 px-4">
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-sm text-foreground">{stock.symbol}</span>
-                      <span className="text-xs text-muted-foreground">{stock.name}</span>
+                  <td className="py-3.5 px-4 relative">
+                    {/* Left accent bar */}
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] rounded-r-full bg-primary h-0 group-hover:h-6 transition-all duration-200" style={{ transitionTimingFunction: 'var(--ease-expo)' }} />
+                    {/* Row hover bg */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-primary/[0.04] transition-opacity duration-150 pointer-events-none" />
+                    <div className="relative flex items-center gap-2.5">
+                      <div className="h-7 w-7 rounded-lg bg-primary/10 ring-1 ring-primary/15 flex items-center justify-center text-[9px] font-bold text-primary shrink-0">
+                        {stock.symbol.slice(0, 2)}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-[13px] text-foreground leading-none">{stock.symbol}</span>
+                        <span className="text-[10px] text-muted-foreground mt-0.5 leading-none">{stock.name}</span>
+                      </div>
                     </div>
                   </td>
                   {visibleColumns.map(col => (

@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowDown, ArrowUp, DollarSign, TrendingUp, Wallet } from 'lucide-react'
+import { ArrowDown, ArrowUp, TrendingUp, Wallet, Activity, BarChart2 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import type { PortfolioSummary as PortfolioSummaryType } from '@/lib/types'
 
@@ -27,69 +27,81 @@ export function PortfolioSummary({ summary }: PortfolioSummaryProps) {
 
   return (
     <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+
       {/* Total Portfolio Value */}
-      <Card className="bg-card border-border/60 overflow-hidden group hover:border-primary/40 transition-all duration-300 luxury-glow">
-        <div className="h-[2px] bg-gradient-to-r from-primary via-primary/50 to-transparent" />
-        <CardContent className="pt-5 pb-5">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-3">Total Portfolio Value</p>
-          <p className="text-2xl font-bold text-foreground tabular-nums" style={{ fontFamily: 'var(--font-serif)' }}>
-            {formatCurrency(summary.totalValue)}
-          </p>
-          <div className="mt-3 flex items-center gap-2">
-            <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center">
+      <Card className="overflow-hidden group cursor-default select-none">
+        <div className="h-[3px] bg-gradient-to-r from-primary via-primary/60 to-transparent" />
+        <CardContent className="pt-5 pb-5 px-5">
+          <div className="flex items-start justify-between mb-3">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Portfolio Value</p>
+            <div className="h-7 w-7 rounded-xl bg-primary/10 ring-1 ring-primary/20 flex items-center justify-center group-hover:bg-primary/15 transition-colors" style={{ transitionTimingFunction: 'var(--ease-expo)' }}>
               <TrendingUp className="h-3.5 w-3.5 text-primary" />
             </div>
-            <span className="text-xs text-muted-foreground">All positions + cash</span>
           </div>
+          <p className="text-[1.6rem] font-bold text-foreground tabular-nums leading-none" style={{ fontFamily: 'var(--font-serif)' }}>
+            {formatCurrency(summary.totalValue)}
+          </p>
+          <p className="mt-2.5 text-[10px] text-muted-foreground/70">All positions + cash</p>
         </CardContent>
       </Card>
 
       {/* Today's Change */}
-      <Card className="border-border/60 overflow-hidden group hover:border-primary/40 transition-all duration-300 luxury-glow">
-        <div className={`h-[2px] bg-gradient-to-r ${isPositiveDay ? 'from-emerald-400 via-emerald-500/40 to-transparent' : 'from-destructive via-destructive/40 to-transparent'}`} />
-        <CardContent className="pt-5 pb-5">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-3">{"Today's Change"}</p>
-          <p className={`text-2xl font-bold tabular-nums ${isPositiveDay ? 'text-emerald-400' : 'text-destructive'}`} style={{ fontFamily: 'var(--font-serif)' }}>
+      <Card className="overflow-hidden group cursor-default select-none">
+        <div className={`h-[3px] bg-gradient-to-r ${isPositiveDay ? 'from-emerald-400 via-emerald-500/50 to-transparent' : 'from-destructive via-destructive/50 to-transparent'}`} />
+        <CardContent className="pt-5 pb-5 px-5">
+          <div className="flex items-start justify-between mb-3">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">{"Today's Change"}</p>
+            <div className={`h-7 w-7 rounded-xl ring-1 flex items-center justify-center transition-colors ${isPositiveDay ? 'bg-emerald-400/10 ring-emerald-400/20 group-hover:bg-emerald-400/15' : 'bg-destructive/10 ring-destructive/20 group-hover:bg-destructive/15'}`} style={{ transitionTimingFunction: 'var(--ease-expo)' }}>
+              <Activity className={`h-3.5 w-3.5 ${isPositiveDay ? 'text-emerald-400' : 'text-destructive'}`} />
+            </div>
+          </div>
+          <p className={`text-[1.6rem] font-bold tabular-nums leading-none ${isPositiveDay ? 'text-emerald-400' : 'text-destructive'}`} style={{ fontFamily: 'var(--font-serif)' }}>
             {formatCurrency(summary.dayChange)}
           </p>
-          <p className={`text-xs mt-3 flex items-center gap-1 font-semibold tabular-nums ${isPositiveDay ? 'text-emerald-400/70' : 'text-destructive/70'}`}>
-            {isPositiveDay ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
+          <span className={`inline-flex items-center gap-1 mt-2.5 text-[10px] font-semibold tabular-nums px-2 py-0.5 rounded-full ${isPositiveDay ? 'bg-emerald-400/10 text-emerald-400' : 'bg-destructive/10 text-destructive'}`}>
+            {isPositiveDay ? <ArrowUp className="h-2.5 w-2.5" /> : <ArrowDown className="h-2.5 w-2.5" />}
             {formatPercent(summary.dayChangePercent)}
-          </p>
+          </span>
         </CardContent>
       </Card>
 
       {/* Total Gain/Loss */}
-      <Card className="border-border/60 overflow-hidden group hover:border-primary/40 transition-all duration-300 luxury-glow">
-        <div className={`h-[2px] bg-gradient-to-r ${isPositiveTotal ? 'from-emerald-400 via-emerald-500/40 to-transparent' : 'from-destructive via-destructive/40 to-transparent'}`} />
-        <CardContent className="pt-5 pb-5">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-3">Total Gain / Loss</p>
-          <p className={`text-2xl font-bold tabular-nums ${isPositiveTotal ? 'text-emerald-400' : 'text-destructive'}`} style={{ fontFamily: 'var(--font-serif)' }}>
+      <Card className="overflow-hidden group cursor-default select-none">
+        <div className={`h-[3px] bg-gradient-to-r ${isPositiveTotal ? 'from-emerald-400 via-emerald-500/50 to-transparent' : 'from-destructive via-destructive/50 to-transparent'}`} />
+        <CardContent className="pt-5 pb-5 px-5">
+          <div className="flex items-start justify-between mb-3">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Total Gain / Loss</p>
+            <div className={`h-7 w-7 rounded-xl ring-1 flex items-center justify-center transition-colors ${isPositiveTotal ? 'bg-emerald-400/10 ring-emerald-400/20 group-hover:bg-emerald-400/15' : 'bg-destructive/10 ring-destructive/20 group-hover:bg-destructive/15'}`} style={{ transitionTimingFunction: 'var(--ease-expo)' }}>
+              <BarChart2 className={`h-3.5 w-3.5 ${isPositiveTotal ? 'text-emerald-400' : 'text-destructive'}`} />
+            </div>
+          </div>
+          <p className={`text-[1.6rem] font-bold tabular-nums leading-none ${isPositiveTotal ? 'text-emerald-400' : 'text-destructive'}`} style={{ fontFamily: 'var(--font-serif)' }}>
             {formatCurrency(summary.totalGain)}
           </p>
-          <p className={`text-xs mt-3 flex items-center gap-1 font-semibold tabular-nums ${isPositiveTotal ? 'text-emerald-400/70' : 'text-destructive/70'}`}>
-            {isPositiveTotal ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
+          <span className={`inline-flex items-center gap-1 mt-2.5 text-[10px] font-semibold tabular-nums px-2 py-0.5 rounded-full ${isPositiveTotal ? 'bg-emerald-400/10 text-emerald-400' : 'bg-destructive/10 text-destructive'}`}>
+            {isPositiveTotal ? <ArrowUp className="h-2.5 w-2.5" /> : <ArrowDown className="h-2.5 w-2.5" />}
             {formatPercent(summary.totalGainPercent)}
-          </p>
+          </span>
         </CardContent>
       </Card>
 
       {/* Available Cash */}
-      <Card className="bg-card border-border/60 overflow-hidden group hover:border-primary/40 transition-all duration-300 luxury-glow">
-        <div className="h-[2px] bg-gradient-to-r from-primary/70 via-primary/25 to-transparent" />
-        <CardContent className="pt-5 pb-5">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-3">Available Cash</p>
-          <p className="text-2xl font-bold text-foreground tabular-nums" style={{ fontFamily: 'var(--font-serif)' }}>
-            {formatCurrency(summary.availableCash)}
-          </p>
-          <div className="mt-3 flex items-center gap-2">
-            <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center">
+      <Card className="overflow-hidden group cursor-default select-none">
+        <div className="h-[3px] bg-gradient-to-r from-primary/60 via-primary/25 to-transparent" />
+        <CardContent className="pt-5 pb-5 px-5">
+          <div className="flex items-start justify-between mb-3">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Available Cash</p>
+            <div className="h-7 w-7 rounded-xl bg-primary/10 ring-1 ring-primary/20 flex items-center justify-center group-hover:bg-primary/15 transition-colors" style={{ transitionTimingFunction: 'var(--ease-expo)' }}>
               <Wallet className="h-3.5 w-3.5 text-primary" />
             </div>
-            <span className="text-xs text-muted-foreground">Ready to invest</span>
           </div>
+          <p className="text-[1.6rem] font-bold text-foreground tabular-nums leading-none" style={{ fontFamily: 'var(--font-serif)' }}>
+            {formatCurrency(summary.availableCash)}
+          </p>
+          <p className="mt-2.5 text-[10px] text-muted-foreground/70">Ready to invest</p>
         </CardContent>
       </Card>
+
     </div>
   )
 }
