@@ -36,7 +36,8 @@
       "Bash(claude:*)",
       "Bash(winget search:*)",
       "Bash(scoop bucket:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(taskkill:*)"
     ]
   }
 }
