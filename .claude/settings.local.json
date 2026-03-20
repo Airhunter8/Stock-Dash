@@ -37,7 +37,8 @@
       "Bash(winget search:*)",
       "Bash(scoop bucket:*)",
       "Bash(curl:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }

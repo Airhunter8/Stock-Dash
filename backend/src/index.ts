@@ -8,7 +8,9 @@ import { FinnhubClient, PriceUpdate } from './finnhub-client'
 dotenv.config()
 
 const PORT = parseInt(process.env.WS_PORT || '3002', 10)
-const FRONTEND_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : ['http://localhost:3000']
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY || ''
 
 if (!FINNHUB_API_KEY) {
@@ -16,12 +18,12 @@ if (!FINNHUB_API_KEY) {
 }
 
 const app = express()
-app.use(cors({ origin: FRONTEND_URL, credentials: true }))
+app.use(cors({ origin: ALLOWED_ORIGINS, credentials: true }))
 app.use(express.json())
 
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
-  cors: { origin: FRONTEND_URL, credentials: true },
+  cors: { origin: ALLOWED_ORIGINS, credentials: true },
 })
 
 // Track which tickers each socket is watching
