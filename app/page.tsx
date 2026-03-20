@@ -220,26 +220,6 @@ export default function DashboardPage() {
           </a>
         </div>
 
-        {/* Award badge — bottom-left floating circle */}
-        <div
-          className="absolute bottom-16 left-8 h-20 w-20 rounded-full flex flex-col items-center justify-center"
-          style={{
-            border: '1px solid oklch(0.74 0.18 68 / 0.35)',
-            boxShadow: '0 0 0 6px oklch(0.74 0.18 68 / 0.06), inset 0 0 12px oklch(0.74 0.18 68 / 0.05)',
-            background: 'oklch(0.075 0.01 65 / 0.5)',
-            backdropFilter: 'blur(8px)',
-          }}
-        >
-          <div
-            className="h-[68px] w-[68px] rounded-full flex flex-col items-center justify-center"
-            style={{ border: '1px solid oklch(0.74 0.18 68 / 0.2)' }}
-          >
-            <span className="text-[7px] tracking-[0.25em] uppercase text-primary/70 leading-none">Stoc</span>
-            <span className="text-[10px] tracking-[0.1em] uppercase text-primary font-semibold leading-none mt-0.5" style={{ fontFamily: 'var(--font-serif)' }}>Flow</span>
-            <div className="h-px w-6 bg-primary/30 my-1" />
-            <span className="text-[8px] tracking-[0.15em] text-foreground/40 leading-none">2024</span>
-          </div>
-        </div>
 
       </section>
 
