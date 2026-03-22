@@ -1,4 +1,3 @@
-import { auth } from '@/auth'
 import { cacheGet, cacheSet } from '@/lib/redis'
 import { getMarketDataProvider } from '@/lib/market-data'
 import { getMockSentimentData, generatePriceHistory } from '@/lib/mock-data'
@@ -12,11 +11,6 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ ticker: string }> }
 ) {
-  const session = await auth()
-  if (!session?.user?.id) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   const { ticker } = await params
   const upper = ticker.toUpperCase()
 

@@ -23,11 +23,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
         <div className="text-center">
           <h1 className="text-2xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif)' }}>
-            <span className="text-primary">Paper</span>
-            <span className="text-foreground">Trade</span>
+            <span className="text-primary">Stoc</span>
+            <span className="text-foreground">Flow</span>
           </h1>
           <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-medium">
-            Stock Trading Simulator
+            Reinventing Stocks
           </p>
         </div>
       </div>

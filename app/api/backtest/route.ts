@@ -1,15 +1,9 @@
-import { auth } from '@/auth'
 import { getMarketDataProvider } from '@/lib/market-data'
 import { runBacktest } from '@/lib/server/backtest-engine'
 import type { StrategyRule } from '@/lib/server/backtest-engine'
 
 export async function POST(req: Request) {
   try {
-    const session = await auth()
-    if (!session?.user?.id) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const body = await req.json()
     const { ticker, period, initialCapital, buyRules, sellRules } = body
 

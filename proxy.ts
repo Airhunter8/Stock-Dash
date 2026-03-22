@@ -2,11 +2,13 @@ import { auth } from '@/auth'
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth
-  const isAuthPage =
-    req.nextUrl.pathname.startsWith('/login') ||
-    req.nextUrl.pathname.startsWith('/register')
+  const { pathname } = req.nextUrl
 
-  if (!isLoggedIn && !isAuthPage) {
+  const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/register')
+  // Analysis pages are public — no account needed
+  const isPublicPage = pathname.startsWith('/backtesting') || pathname.startsWith('/predictions')
+
+  if (!isLoggedIn && !isAuthPage && !isPublicPage) {
     return Response.redirect(new URL('/login', req.nextUrl))
   }
   if (isLoggedIn && isAuthPage) {
