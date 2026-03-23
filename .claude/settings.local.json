@@ -38,7 +38,9 @@
       "Bash(scoop bucket:*)",
       "Bash(curl:*)",
       "Bash(taskkill:*)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "mcp__playwright__browser_fill_form",
+      "Bash(ls:*)"
     ]
   }
 }

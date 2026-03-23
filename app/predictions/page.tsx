@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { Sparkles } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -135,9 +136,14 @@ export default function PredictionsPage() {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-64 text-center space-y-1.5 rounded-xl border border-border/50 bg-card">
-                <p className="text-sm font-medium text-muted-foreground">Select a stock and click Analyze.</p>
-                <p className="text-xs text-muted-foreground/50">Bull / Base / Bear scenarios will appear here.</p>
+              <div className="flex flex-col items-center justify-center h-64 text-center space-y-3 rounded-xl border border-border/50 bg-card">
+                <div className="h-14 w-14 rounded-full bg-primary/10 ring-1 ring-primary/20 flex items-center justify-center">
+                  <Sparkles className="h-6 w-6 text-primary/60" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-foreground/70">Select a stock and click Analyze</p>
+                  <p className="text-xs text-muted-foreground">Bull / Base / Bear scenarios will appear here</p>
+                </div>
               </div>
             )}
           </div>

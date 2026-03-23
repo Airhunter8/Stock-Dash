@@ -1,0 +1,47 @@
+Stock-Dash Improvement Ideas
+=============================
+
+1. Real-time feel throughout
+   - Live price tickers in the nav bar
+   - Animated P&L numbers that pulse on update
+   - "Market pulse" ribbon across the top
+   - WebSocket backend is already built — frontend needs to use it more aggressively
+
+2. Genuinely useful backtesting
+   - Comparison mode: test two strategies side-by-side
+   - Equity curve chart overlaid against buy-and-hold benchmark
+   - Parameter sweep: e.g., "try SMA 10-50 and show which worked best"
+   - Engine is already built — UI is the gap
+
+3. Portfolio attribution / analytics
+   - Sector breakdown
+   - Best/worst performers view
+   - Realized vs. unrealized gains chart
+   - Alpha vs. S&P 500 comparison
+   - Makes the app feel professional vs. beginner tools
+
+4. Onboarding with pre-seeded portfolios
+   - Let new users pick a starter strategy (e.g., "Tech growth", "Dividend income", "Index following")
+   - Populate portfolio with paper trades already in place
+   - Reduces time-to-value vs. a blank app
+
+5. AI predictions with visible reasoning
+   - Predictions page exists but needs to show *why*
+   - Example: "RSI crossed oversold + earnings beat last quarter + institutional buying" with source links
+   - More useful than just a score
+
+6. Trade journal / notes
+   - Let users annotate trades (e.g., "bought because of earnings beat", "sold too early")
+   - Differentiator — nobody else does this in paper trading apps
+   - Serves the actual learning use case
+
+7. Leaderboards / social
+   - Anonymized portfolio rankings
+   - Example: "Your portfolio beats 73% of users this month"
+   - Adds stickiness and competitive motivation
+
+
+Priority order (mostly frontend work on existing backend):
+  1. Portfolio attribution
+  2. Backtesting UX improvements
+  3. Real-time price propagation

@@ -17,7 +17,7 @@ import {
 import { useWatchlist } from '@/hooks/use-watchlist'
 import { Header } from '@/components/dashboard/header'
 import { toast } from 'sonner'
-import { Search, Trash2, ExternalLink, TrendingUp, TrendingDown } from 'lucide-react'
+import { Search, Trash2, ExternalLink, TrendingUp, TrendingDown, Star } from 'lucide-react'
 
 interface SearchResult {
   ticker: string
@@ -142,9 +142,14 @@ export default function WatchlistPage() {
             ))}
           </div>
         ) : items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-48 text-center space-y-1.5">
-            <p className="text-sm font-medium text-muted-foreground">Your watchlist is empty.</p>
-            <p className="text-xs text-muted-foreground/60">Search for a stock above to add it.</p>
+          <div className="flex flex-col items-center justify-center h-64 text-center space-y-3">
+            <div className="h-14 w-14 rounded-full bg-primary/10 ring-1 ring-primary/20 flex items-center justify-center">
+              <Star className="h-6 w-6 text-primary/60" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-foreground/70">Your watchlist is empty</p>
+              <p className="text-xs text-muted-foreground">Search for a ticker above to start tracking stocks</p>
+            </div>
           </div>
         ) : (
           <div className="rounded-xl border border-border/60 overflow-hidden">

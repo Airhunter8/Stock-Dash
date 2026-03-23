@@ -14,7 +14,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       {/* Thin amber line at top */}
       <div className="fixed top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
 
-      <div className="mb-10 flex flex-col items-center gap-4">
+      <div className="mb-10 flex flex-col items-center gap-4 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
         <div
           className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 ring-1 ring-primary/30"
           style={{ boxShadow: '0 0 40px oklch(0.72 0.13 72 / 0.15)' }}
@@ -32,7 +32,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
       </div>
 
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-sm animate-fade-in-up" style={{ animationDelay: '80ms' }}>
         {children}
       </div>
     </div>

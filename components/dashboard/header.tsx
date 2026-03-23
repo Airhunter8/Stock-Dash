@@ -219,7 +219,7 @@ export function Header({ onSearch }: HeaderProps) {
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
         <SheetTrigger asChild>
           <button
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 h-14 w-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
+            className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-50 h-14 w-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
               background: 'oklch(0.075 0.01 65 / 0.72)',
               backdropFilter: 'blur(14px) saturate(1.5)',

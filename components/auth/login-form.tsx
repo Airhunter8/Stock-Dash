@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,6 +23,7 @@ type FormData = z.infer<typeof schema>
 export function LoginForm() {
   const router = useRouter()
   const [authError, setAuthError] = useState<string | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
 
   const {
     register,
@@ -83,21 +85,40 @@ export function LoginForm() {
 
           <div className="space-y-1.5">
             <Label htmlFor="password" className="text-sm font-medium">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              autoComplete="current-password"
-              className="bg-secondary/50 border-border/60 focus:border-primary/50 h-9"
-              {...register('password')}
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                autoComplete="current-password"
+                className="bg-secondary/50 border-border/60 focus:border-primary/50 h-9 pr-9"
+                {...register('password')}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(v => !v)}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                tabIndex={-1}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword
+                  ? <EyeOff className="h-3.5 w-3.5" />
+                  : <Eye className="h-3.5 w-3.5" />
+                }
+              </button>
+            </div>
             {errors.password && (
               <p className="text-xs text-destructive">{errors.password.message}</p>
             )}
           </div>
 
           <Button type="submit" className="w-full h-9 font-semibold" disabled={isSubmitting}>
-            {isSubmitting ? 'Signing in...' : 'Sign in'}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+                Signing in...
+              </>
+            ) : 'Sign in'}
           </Button>
         </form>
 

@@ -29,7 +29,7 @@
 
   /* Muted */
   --muted: oklch(0.17 0.014 67);
-  --muted-foreground: oklch(0.54 0.022 70);
+  --muted-foreground: oklch(0.62 0.022 70);
 
   /* Accent */
   --accent: oklch(0.20 0.016 67);
@@ -83,7 +83,7 @@
   --secondary: oklch(0.17 0.014 67);
   --secondary-foreground: oklch(0.86 0.010 75);
   --muted: oklch(0.17 0.014 67);
-  --muted-foreground: oklch(0.54 0.022 70);
+  --muted-foreground: oklch(0.62 0.022 70);
   --accent: oklch(0.20 0.016 67);
   --accent-foreground: oklch(0.96 0.010 75);
   --destructive: oklch(0.60 0.22 25);
@@ -272,8 +272,24 @@
   * {
     @apply border-border outline-ring/50;
   }
+  :root {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Accessible focus-visible ring — visible for keyboard nav, hidden for mouse */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: calc(var(--radius) - 2px);
+  }
+
+  /* Text selection */
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 28%, transparent);
+    color: var(--foreground);
   }
 
   /* Tabular numbers for financial data */
@@ -344,4 +360,36 @@
     0 0 0 1px color-mix(in oklch, var(--primary) 30%, transparent),
     0 6px 32px color-mix(in oklch, var(--primary) 10%, transparent),
     inset 0 1px 0 color-mix(in oklch, var(--primary) 20%, oklch(1 0 0 / 0.08)) !important;
+}
+
+/* ── Animation keyframes ── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Animation utilities */
+.animate-fade-in-up {
+  animation: fade-in-up 0.55s var(--ease-expo) both;
+}
+.animate-fade-in {
+  animation: fade-in 0.4s var(--ease-expo) both;
+}
+.animate-slide-down {
+  animation: slide-down 0.35s var(--ease-expo) both;
+}
+
+/* Staggered children — add [style="--delay:Xms"] to each child */
+.stagger-children > * {
+  animation-delay: var(--delay, 0ms);
 }

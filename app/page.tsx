@@ -18,9 +18,12 @@ import { Toaster } from '@/components/ui/toaster'
 import { usePortfolio } from '@/hooks/use-portfolio'
 import { useWatchlist } from '@/hooks/use-watchlist'
 import { useRealtimePrices } from '@/hooks/use-realtime-prices'
+import { useSession } from 'next-auth/react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function DashboardPage() {
   const router = useRouter()
+  const { data: session } = useSession()
   const [columns, setColumns] = useState<ColumnConfig[]>(defaultColumns)
   const [selectedStock, setSelectedStock] = useState<Stock | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -225,17 +228,17 @@ export default function DashboardPage() {
 
       {/* ── Dashboard content ── */}
       <main id="dashboard" className="px-4 md:px-6 pt-16 pb-32 max-w-[1600px] mx-auto">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '60ms' }}>
           <div>
             <h2 className="text-3xl font-bold text-foreground tracking-tight" style={{ fontFamily: 'var(--font-serif)' }}>
-              Welcome back, Trader
+              Welcome back, {session?.user?.name?.split(' ')[0] ?? 'Trader'}
             </h2>
             <p className="text-muted-foreground mt-1.5 text-sm tracking-wide">{"Here's your portfolio overview"}</p>
           </div>
           <MarketStatus />
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: '120ms' }}>
           <PortfolioSummary summary={portfolioSummary} />
 
           <div className="grid gap-6 lg:grid-cols-3">
@@ -263,7 +266,27 @@ export default function DashboardPage() {
           </div>
 
           {isLoading && stocks.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">Loading portfolio...</div>
+            <div className="rounded-lg border border-border/50 overflow-hidden">
+              {/* Skeleton table header */}
+              <div className="px-5 py-3 border-b border-border/40 flex items-center gap-4">
+                <Skeleton className="h-4 w-28" />
+                <Skeleton className="h-4 w-16 ml-auto" />
+              </div>
+              {/* Skeleton rows */}
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="px-5 py-4 flex items-center gap-4 border-b border-border/20 last:border-0">
+                  <Skeleton className="h-8 w-8 rounded-full shrink-0" />
+                  <div className="flex-1 space-y-1.5">
+                    <Skeleton className="h-3.5 w-16" />
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                  <Skeleton className="h-3.5 w-20 ml-auto" />
+                  <Skeleton className="h-3.5 w-16" />
+                  <Skeleton className="h-3.5 w-20" />
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                </div>
+              ))}
+            </div>
           ) : (
             <StockTable
               stocks={filteredStocks}
